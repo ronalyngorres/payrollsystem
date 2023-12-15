@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style1.css">
+    <title>Payroll System</title>
+</head>
+<body>
+  
+
+<form>
+  
+  <h1>CS COMPANY</h1>
+
+  <form id="payrollForm">
+   <label for="employeeName">Name of Employee:</label>
+    <input type="text" id="employeeName" name="employeeName" required>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="savingsAccount">Savings Account:</label>
+    <input type="text" id="savingsAccount" name="savingsAccount" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="accountType">Account Type:</label>
+    <select id="accountType" name="accountType">
+      <option value="savings">Savings</option>
+      <option value="checking">Checking</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="regPay">Daily Salary:</label>
+    <input type="number" id="regPay" name="regPay" required>
+
+    <p><label for="regHours">Days of Work:</label>
+    <input type="number" id="regHours" name="regHours" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="ecolaPay">ECOLA Pay:</label>
+    <input type="number" id="ecolaPay" name="ecolaPay" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="otherIncome">Other Income:</label>
+    <input type="number" id="otherIncome" name="otherIncome" placeholder="Enter additional income">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="communicationAllowance">Communication Allowance:</label>
+    <input type="number" id="communicationAllowance" name="communicationAllowance" required></p>
+
+    <p><label for="tax">Tax Deduction:</label>
+    <input type="number" id="tax" name="tax" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="pagibigEE">Pag-IBIG Employee Share:</label>
+    <input type="number" id="pagibigEE" name="pagibigEE" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="philhealthEE">PhilHealth Employee Share:</label>
+    <input type="number" id="philhealthEE" name="philhealthEE" required></p>
+
+    <label for="sssEE">SSS Employee Share:</label>
+    <input type="number" id="sssEE" name="sssEE" required>
+
+    <label for="annualSalary">Enter Annual Salary:</label>
+    <input type="number" id="annualSalary">
+      <p id="result"></p>
+
+    <label for="startContract">Start Date:</label>
+    <input type="date" id="startContract" name="startContract" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="endContract">End Contract:</label>
+    <input type="date" id="endContract" name="endContract" required>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+  
+    <button type="button" onclick="calculatePay()">Calculate Pay</button>
+    <button type="button" onclick="window.location.href='C:/Users/admin/Desktop/index.html/login.html'">Home</button>
+  </form>
+
+  <h2>Payroll Summary</h2>
+  <div id="payrollSummary">
+    
+  </div>
+
+  <script>
+    function calculatePay() {
+      const employeeName = document.getElementById('employeeName').value;
+      const savingsAccount = document.getElementById('savingsAccount').value;
+      const accountType = document.getElementById('accountType').value;
+      const regPay = parseFloat(document.getElementById('regPay').value);
+      const regHours = parseFloat(document.getElementById('regHours').value);
+      const ecolaPay = parseFloat(document.getElementById('ecolaPay').value);
+      const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+      const communicationAllowance = parseFloat(document.getElementById('communicationAllowance').value);
+      const tax = parseFloat(document.getElementById('tax').value);
+      const pagibigEE = parseFloat(document.getElementById('pagibigEE').value);
+      const startContract = document.getElementById('startContract').value;
+      const endContract = document.getElementById('endContract').value;
+      const philhealthEE = parseFloat(document.getElementById('philhealthEE').value);
+      const sssEE = parseFloat(document.getElementById('sssEE').value);
+      let annualSalary;
+          if (accountType === "checking") {
+             annualSalary = 0;
+        } else {
+            annualSalary = parseFloat(document.getElementById('annualSalary').value);
+        }
+      
+      let grossPay;
+          if (accountType === "checking") {
+             grossPay = 0;
+        } else {
+            grossPay = regPay * regHours + ecolaPay + otherIncome + communicationAllowance;
+        }
+      let totalDeductions;
+      if (accountType === "checking") {
+            totalDeductions = 0;
+        } else {
+           totalDeductions = tax + pagibigEE + philhealthEE + sssEE;
+        }
+      let netPay;
+      if (accountType === "checking") {
+           netPay = 0;
+        } else {
+            netPay = grossPay - totalDeductions;
+        }
+      const payrollSummary = document.getElementById('payrollSummary');
+      payrollSummary.innerHTML = `
+        <p><strong>Name of Employee:</strong> ${employeeName}</p>
+        <p><strong>Savings Account:</strong> ${savingsAccount}</p>
+        <p><strong>Account Type:</strong> ${accountType}</p>
+        <p><strong>Start Date:</strong> ${startContract}</p>
+        <p><strong>End Contract:</strong> ${endContract}</p>
+        <p><strong>Gross Pay:</strong> ₱${grossPay.toFixed(2)}</p>
+        <p><strong>Total Deductions:</strong> ₱${totalDeductions.toFixed(2)}</p>
+        <p><strong>Net Pay:</strong> ₱${netPay.toFixed(2)}</p>
+        <p><strong>Annual Salary:</strong> ₱${annualSalary.toFixed(2)}</p>
+
+      
+      `;
+    }
+
+    
+ </script>
+</body>
+</html>
